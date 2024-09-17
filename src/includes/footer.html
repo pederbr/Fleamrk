@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" media="screen" href=" main_style.css" />
+    <title>Footer</title>
+    <style>
+        footer {
+            width: 100%;
+            padding-top: 100px;
+        }
+
+        #footer_wrapper {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            background-color: #402E24;
+            color: #F2D3AC;
+        }
+
+        footer a,
+        footer p {
+            color: #F2D3AC;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .footer_image {
+            width: 30%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .footer_image img {
+            padding-top: 40px;
+            width: 200px;
+            
+        }
+
+        .block {
+            width: 70%;
+            padding: 0px 50px;
+            display: flex;
+        }
+
+
+        #copywright {
+            width: 100%;
+            text-align: center;
+            padding: 15px;
+        }
+
+        #contact_form,
+        #footer_links {
+            width: 50%;
+            margin: 20px 0px;
+            padding: 20px;
+        }
+        
+        #contact_form input{
+            background-color: #402E24;
+            color: #F2D3AC;
+        }
+        #footer_links * {
+            margin:  15px 0px;
+        }
+        @media screen and (max-width: 500px) { 
+            .block, .footer_image, #contact_form, #footer_links  {
+                width: 100%;
+            }
+            .block {
+                flex-wrap: wrap;
+                
+            }
+            #contact_form,
+            #footer_links {
+                margin: 0;
+                text-align: center;
+            }
+
+
+        }
+
+    </style>
+</head>
+
+<body>
+    <footer>
+        <div id="footer_wrapper">
+            <div class="footer_image">
+                <img src="website_pictures\fleamrk_L_footer.png" alt="logo_large">
+            </div>
+            <div class="block">
+                <div id="contact_form">
+                    <h2>Kontakt oss</h2>
+                    <input type="text" placeholder="e-post adresse" />
+                    <p>Øvre Båstad vei 21</p>
+                </div>
+                <div id="footer_links">
+                    <a href="om_oss.php">Om oss</a> 
+                    <br>
+                    <a href="ny_gjenstand.php">Legg ut noe</a>
+                    <br>
+                    <a href="logout.php">Logg ut</a>
+                    <br>
+                </div>
+            </div>
+            <div id="copywright">
+                <p> kopirett © 2021 fleamrk AS</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
