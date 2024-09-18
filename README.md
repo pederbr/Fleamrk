@@ -16,7 +16,7 @@ This is a fullstack web-app written in PHP and mySQL.
 
 ## Installation
 
-This project is legacy, and it can no longer be ran.
+I am currently unable to run the program
 
 ## Contributing
 Written by Peder Brennum
