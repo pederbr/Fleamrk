@@ -2,46 +2,52 @@
     include(__DIR__ . "/../includes/top_navbar.php");
     $tilkobling = new SQLite3(__DIR__ . '/../resources/db/fleamrk.db');
 
-    $sql = sprintf("SELECT * FROM bruker WHERE brukerID=%s",
-    $tilkobling->escapeString($_GET["oppdaterID"]));
-    $datasett = $tilkobling->query($sql);
+    $stmt = $tilkobling->prepare(
+        "SELECT * FROM bruker WHERE brukerID=:brukerID"
+    );
+    $stmt->bindValue(':brukerID', $_GET["oppdaterID"], SQLITE3_TEXT);
+    $datasett = $stmt->execute();
     
     if (isset($_POST["submit"])){
         while ($rad = $datasett->fetchArray(SQLITE3_ASSOC)) {
             if ($_POST["txtBrukernavn"] != $rad["brukernavn"]) {
-                $sql = sprintf("SELECT brukerID FROM bruker WHERE brukernavn = '%s'", 
-                $tilkobling->escapeString($_POST["txtBrukernavn"]));
-                $brukersjekk = $tilkobling->query($sql);
+                $stmt = $tilkobling->prepare(
+                    "SELECT brukerID FROM bruker WHERE brukernavn = :brukernavn"
+                );
+                $stmt->bindValue(':brukernavn', $_POST["txtBrukernavn"], SQLITE3_TEXT);
+                $brukersjekk = $stmt->execute();
     
                 if ($brukersjekk->fetchArray(SQLITE3_ASSOC)) {
                     echo 'Dette brukernavnet er tatt!';
                 } else {
-                    $sql = sprintf("UPDATE bruker SET brukernavn='%s', email='%s', fornavn='%s', etternavn='%s', telefonnummer='%s' WHERE brukerID=%s",
-                            $tilkobling->escapeString($_POST["txtBrukernavn"]),
-                            $tilkobling->escapeString($_POST["txtMail"]),
-                            $tilkobling->escapeString($_POST["txtFornavn"]),
-                            $tilkobling->escapeString($_POST["txtEtternavn"]),
-                            $tilkobling->escapeString($_POST["txtTelefonnummer"]),
-                            $tilkobling->escapeString($_GET["oppdaterID"])
-                            );
-                    $tilkobling->exec($sql);
-                    print $sql;
+                    $stmt = $tilkobling->prepare(
+                        "UPDATE bruker SET brukernavn=:brukernavn, email=:email, fornavn=:fornavn, etternavn=:etternavn, telefonnummer=:telefonnummer WHERE brukerID=:brukerID"
+                    );
+                    $stmt->bindValue(':brukernavn', $_POST["txtBrukernavn"], SQLITE3_TEXT);
+                    $stmt->bindValue(':email', $_POST["txtMail"], SQLITE3_TEXT);
+                    $stmt->bindValue(':fornavn', $_POST["txtFornavn"], SQLITE3_TEXT);
+                    $stmt->bindValue(':etternavn', $_POST["txtEtternavn"], SQLITE3_TEXT);
+                    $stmt->bindValue(':telefonnummer', $_POST["txtTelefonnummer"], SQLITE3_TEXT);
+                    $stmt->bindValue(':brukerID', $_GET["oppdaterID"], SQLITE3_TEXT);
+                    $stmt->execute();
+                    print $stmt;
                     $_SESSION["fornavn"] = $_POST["txtFornavn"];
                     $_SESSION["etternavn"] = $_POST["txtEtternavn"]; 
 
                     header("Location:main.php");
                 }
             } else {
-                $sql = sprintf("UPDATE bruker SET brukernavn='%s', email='%s', fornavn='%s', etternavn='%s', telefonnummer='%s' WHERE brukerID=%s",
-                        $tilkobling->escapeString($_POST["txtBrukernavn"]),
-                        $tilkobling->escapeString($_POST["txtMail"]),
-                        $tilkobling->escapeString($_POST["txtFornavn"]),
-                        $tilkobling->escapeString($_POST["txtEtternavn"]),
-                        $tilkobling->escapeString($_POST["txtTelefonnummer"]),
-                        $tilkobling->escapeString($_GET["oppdaterID"])
-                        );
-                $tilkobling->exec($sql);
-                print $sql;
+                $stmt = $tilkobling->prepare(
+                    "UPDATE bruker SET brukernavn=:brukernavn, email=:email, fornavn=:fornavn, etternavn=:etternavn, telefonnummer=:telefonnummer WHERE brukerID=:brukerID"
+                );
+                $stmt->bindValue(':brukernavn', $_POST["txtBrukernavn"], SQLITE3_TEXT);
+                $stmt->bindValue(':email', $_POST["txtMail"], SQLITE3_TEXT);
+                $stmt->bindValue(':fornavn', $_POST["txtFornavn"], SQLITE3_TEXT);
+                $stmt->bindValue(':etternavn', $_POST["txtEtternavn"], SQLITE3_TEXT);
+                $stmt->bindValue(':telefonnummer', $_POST["txtTelefonnummer"], SQLITE3_TEXT);
+                $stmt->bindValue(':brukerID', $_GET["oppdaterID"], SQLITE3_TEXT);
+                $stmt->execute();
+                print $stmt;
                 $_SESSION["fornavn"] = $_POST["txtFornavn"];
                 $_SESSION["etternavn"] = $_POST["txtEtternavn"]; 
 
@@ -64,7 +70,7 @@
 <body>
     <main>
     <form method="post">
-            <?php if($rad=mysqli_fetch_array($datasett)) { ?>
+            <?php if($rad = $datasett->fetchArray(SQLITE3_ASSOC)) { ?>
             <br>
             <label for="txtBrukernavn"> Brukernavn:</label>
             <input type="text" name="txtBrukernavn" value="<?php echo $rad["brukernavn"];?>" />

@@ -21,7 +21,6 @@ error_reporting(0);
     </div>
     </main>
     <?php include("includes/footer.html")?>
-
 </body>
 </html>
 

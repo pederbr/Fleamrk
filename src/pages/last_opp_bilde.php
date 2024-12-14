@@ -4,12 +4,14 @@
 
     $itemID = $_SESSION["itemID"];   
             
-    $tilkobling = new SQLite3(filename: __DIR__ . '/../resources/db/fleamrk.db');
-    $sql = sprintf("SELECT item.*, merke_navn FROM item, merke WHERE item.merkeID=merke.merkeID AND itemID=%s", 
-    $tilkobling->escapeString($itemID));    
-    $datasett = $tilkobling->query($sql);
+    $tilkobling = new SQLite3(__DIR__ . '/../resources/db/fleamrk.db');
+    $stmt = $tilkobling->prepare(
+        "SELECT item.*, merke_navn FROM item, merke WHERE item.merkeID=merke.merkeID AND itemID=:itemID"
+    );
+    $stmt->bindValue(':itemID', $itemID, SQLITE3_TEXT);
+    $datasett = $stmt->execute();
     
-    //print $sql;
+    //print $stmt;
 
     //$slettID="";
     $msg = "";
@@ -30,19 +32,23 @@
         $filename = $_FILES["uploadfile"]["name"];
         $newname = generateRandomString() . '.' . pathinfo($filename, PATHINFO_EXTENSION);
         $tempname = $_FILES["uploadfile"]["tmp_name"];	
-        $folder = "bilder_gjenstander/" . $newname;
+        $folder = __DIR__ . '/../resources/image_items/' . $newname;        
         //print $folder;
         //print $filename;
         //print $tempname;
             
-        $db = new SQLite3('fleamrk.db');
+        $db = new SQLite3(__DIR__ . '/../resources/db/fleamrk.db');
     
         // Get all the submitted data from the form
-        $sql2 = "INSERT INTO bilder (bildenavn, gjenstandID) VALUES ('$newname', '$itemID')";
-        //print $sql2;
+        $stmt2 = $db->prepare(
+            "INSERT INTO bilder (bildenavn, gjenstandID) VALUES (:bildenavn, :gjenstandID)"
+        );
+        $stmt2->bindValue(':bildenavn', $newname, SQLITE3_TEXT);
+        $stmt2->bindValue(':gjenstandID', $itemID, SQLITE3_TEXT);
+        //print $stmt2;
     
         // Execute query
-        $db->exec($sql2);
+        $stmt2->execute();
             
         // Now let's move the uploaded image into the folder: image
         if (move_uploaded_file($tempname, $folder)) {
@@ -52,21 +58,25 @@
         } else {
             $msg = "Failed to upload image";
             print $msg;
-            $sql3 = sprintf("DELETE FROM bilder WHERE gjenstandID = '$itemID'"); 
-            $tilkobling->exec($sql3);
-            //print $sql3;
+            $stmt3 = $tilkobling->prepare(
+                "DELETE FROM bilder WHERE gjenstandID = :gjenstandID"
+            );
+            $stmt3->bindValue(':gjenstandID', $itemID, SQLITE3_TEXT);
+            $stmt3->execute();
+            //print $stmt3;
         }
         //print $msg;
     }
     $result = $db->query("SELECT * FROM bilder");
 
     if (isset($_GET["slettID"])) { 
-        $sql3 = sprintf("DELETE FROM bilder WHERE gjenstandID = %s",
-         $tilkobling->escapeString($_GET["slettID"])
-        ); 
-        $tilkobling->exec($sql3);
+        $stmt3 = $tilkobling->prepare(
+            "DELETE FROM bilder WHERE gjenstandID = :gjenstandID"
+        );
+        $stmt3->bindValue(':gjenstandID', $_GET["slettID"], SQLITE3_TEXT);
+        $stmt3->execute();
         unlink($_GET["folder"]);
-        //print $sql3;
+        //print $stmt3;
         header("refresh:5;url=last_opp_bilde.php");
     }
 ?>
@@ -124,7 +134,7 @@
 
 <body>
     <div id="display_large">
-        <?php while ($rad =mysqli_fetch_array($datasett)) { ?>
+        <?php while ($rad = $datasett->fetchArray(SQLITE3_ASSOC)) { ?>
         <h2>Legg inn bilde for: <?php echo $rad["navn_item"]; ?> </h2>
         <?php } ?>
     </div>
@@ -142,7 +152,7 @@
         </form>
     </div>
     <?php include(__DIR__ . "/../includes/footer.html")?>
-    <script>
+    <script></script>
         document.getElementById("upload").onchange = function () {
             document.getElementById("submitbutton").click();
         }

@@ -2,25 +2,25 @@
     include(__DIR__ . "/../includes/top_navbar.php");
     $tilkobling = new SQLite3(__DIR__ . '/../resources/db/fleamrk.db');
 
-$sql = sprintf(
+$stmt = $tilkobling->prepare(
     "SELECT item.*, bruker.*, merke.*, bilder.* FROM item, bruker, merke, bilder
-    WHERE item.selgerID=bruker.brukerID AND item.merkeID=merke.merkeID AND bilder.gjenstandID=item.itemID AND itemID=%s",
-    $tilkobling->escapeString($_GET["itemID"])
+    WHERE item.selgerID=bruker.brukerID AND item.merkeID=merke.merkeID AND bilder.gjenstandID=item.itemID AND itemID=:itemID"
 );
-$datasett = $tilkobling->query($sql);
+$stmt->bindValue(':itemID', $_GET["itemID"], SQLITE3_TEXT);
+$datasett = $stmt->execute();
 
-$sql2 = sprintf(
-    "SELECT * FROM favoritt WHERE brukerID='%s' AND itemID='%s'",
-    $tilkobling->escapeString($_SESSION["brukerID"]),
-    $tilkobling->escapeString($_GET["itemID"])
+$stmt2 = $tilkobling->prepare(
+    "SELECT * FROM favoritt WHERE brukerID=:brukerID AND itemID=:itemID"
 );
-$datasett2 = $tilkobling->query($sql2);
+$stmt2->bindValue(':brukerID', $_SESSION["brukerID"], SQLITE3_TEXT);
+$stmt2->bindValue(':itemID', $_GET["itemID"], SQLITE3_TEXT);
+$datasett2 = $stmt2->execute();
 
-$sql3 = sprintf(
-    "SELECT count(itemID) AS likes FROM favoritt WHERE itemID ='%s'",
-    $tilkobling->escapeString($_GET["itemID"])
+$stmt3 = $tilkobling->prepare(
+    "SELECT count(itemID) AS likes FROM favoritt WHERE itemID=:itemID"
 );
-$datasett3 = $tilkobling->query($sql3);
+$stmt3->bindValue(':itemID', $_GET["itemID"], SQLITE3_TEXT);
+$datasett3 = $stmt3->execute();
 
 while ($rad = $datasett2->fetchArray(SQLITE3_ASSOC)) {
     if (isset($rad['brukerID'])) {
@@ -31,10 +31,12 @@ while ($rad = $datasett2->fetchArray(SQLITE3_ASSOC)) {
 if (isset($_POST["submit"])) {
     $bruker = $_SESSION["brukerID"];
     $item = $_GET["itemID"];
-    $sql3 = sprintf(
-        "INSERT INTO `favoritt` (`itemID`, `brukerID`) VALUES ('$item', '$bruker')"
+    $stmt4 = $tilkobling->prepare(
+        "INSERT INTO favoritt (itemID, brukerID) VALUES (:itemID, :brukerID)"
     );
-    $tilkobling->query($sql3);
+    $stmt4->bindValue(':itemID', $item, SQLITE3_TEXT);
+    $stmt4->bindValue(':brukerID', $bruker, SQLITE3_TEXT);
+    $stmt4->execute();
     header("Refresh:0");
 }
 ?>
@@ -181,9 +183,9 @@ if (isset($_POST["submit"])) {
 <body>
     <main>
         <div class="item_large">
-        <?php while ($verdi=mysqli_fetch_array($datasett)) {
-                if ($verdi['brukerID']==$_SESSION["brukerID"]) {
-                    $min_gjenstand="yes";
+        <?php while ($verdi = $datasett->fetchArray(SQLITE3_ASSOC)) {
+                if ($verdi['brukerID'] == $_SESSION["brukerID"]) {
+                    $min_gjenstand = "yes";
                     }?>
             <h1><?php echo $verdi["navn_item"]; ?></h1>
             <div class="column">
@@ -201,7 +203,7 @@ if (isset($_POST["submit"])) {
                                 style="margin: 0px; padding: 0px;">';}?>
                     </form>
                 </div>
-                <?php while ($row =mysqli_fetch_array($datasett3)) {?>
+                <?php while ($row = $datasett3->fetchArray(SQLITE3_ASSOC)) {?>
                 <div id="text_likes">
                 <p>gjenstanden er likt av <?php echo $row["likes"]; ?> personer</p>
                 </div>
