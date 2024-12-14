@@ -5,7 +5,7 @@
 
 Fleamrk is a used-market for buying and selling used goods.
 
-This is a fullstack web-app written in PHP and mySQL.
+This is a fullstack web-app written in PHP and SQLite3.
 
 ## Features
 
@@ -14,10 +14,23 @@ This is a fullstack web-app written in PHP and mySQL.
 * Each user can publish articles
 * Database queries written in SQL
 
+
+## Requirements
+
+* PHP 7.4
+* SQLite3
+
 ## Installation
 
-I am currently unable to run the program
+1. Clone the repository
+2. Enable the SQLite3 extension in your php.ini file
+3. Run the following command in the src directory of the project:
+```bash
+php -S localhost:8000
+```
+4. Open your browser and go to localhost:8000
 
-## Contributing
+
+## Authors
 Written by Peder Brennum
 
