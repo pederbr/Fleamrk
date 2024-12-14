@@ -1,24 +1,19 @@
 <?php
     include("top_navbar.php");
-    $tilkobling= new mysqli("localhost","root","", "fleamrk");
+    $tilkobling = new SQLite3('fleamrk.db');
     
-if(isset($_POST["submit"]))
-{
-    $sql =sprintf("INSERT INTO `fleamrk`.`merke` (`merke_navn`, `merke_info`, `merke_link`) VALUES('%s', '%s', '%s')",
-    $tilkobling->real_escape_string($_POST["txtNavn"]),
-    $tilkobling->real_escape_string($_POST["txtInfo"]),
-    $tilkobling->real_escape_string($_POST["txtLink"]),
-
+if (isset($_POST["submit"])) {
+    $sql = sprintf("INSERT INTO merke (merke_navn, merke_info, merke_link) VALUES('%s', '%s', '%s')",
+    $tilkobling->escapeString($_POST["txtNavn"]),
+    $tilkobling->escapeString($_POST["txtInfo"]),
+    $tilkobling->escapeString($_POST["txtLink"])
     );
-        $tilkobling->query($sql);
+    $tilkobling->exec($sql);
 
-
-        print $sql;
-        header("Location:main.php");
-
-    }
+    print $sql;
+    header("Location:main.php");
+}
 ?>
-
 
 <!DOCTYPE html>
 <html>

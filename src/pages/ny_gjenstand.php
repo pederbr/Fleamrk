@@ -1,6 +1,6 @@
 <?php
 include("top_navbar.php");
-$tilkobling = new mysqli("localhost", "root", "", "fleamrk");
+$tilkobling = new SQLite3('fleamrk.db');
 
 $sql2 = "SELECT * FROM merke";
 $datasett2 = $tilkobling->query($sql2);
@@ -14,46 +14,40 @@ if (isset($_POST["submit"])) {
     $pris = $_POST['txtPris'];
     $merke = $_POST['lstMerke'];
 
-    if (empty($navn) || empty($beskrivelse) || empty($størrelse) || empty($pris || empty($merke))) {
+    if (empty($navn) || empty($beskrivelse) || empty($størrelse) || empty($pris) || empty($merke)) {
         echo 'Fyll inn alle feltene';
     } else {
         $sql = sprintf(
-            "INSERT INTO `fleamrk`.`item` 
-                            (`navn_item`, `beskrivelse`, `size`, `selgerID`, `solgt`, `pris`, `merkeID`) 
-                            VALUES('%s', '%s', '%s', '$brukerID', '0', '%s', '%s')",
-            $tilkobling->real_escape_string($_POST["txtNavn"]),
-            $tilkobling->real_escape_string($_POST["txtBeskrivelse"]),
-            $tilkobling->real_escape_string($_POST["txtStørrelse"]),
-            $tilkobling->real_escape_string($_POST["txtPris"]),
-            $tilkobling->real_escape_string($_POST["lstMerke"])
-
+            "INSERT INTO item (navn_item, beskrivelse, size, selgerID, solgt, pris, merkeID) 
+            VALUES('%s', '%s', '%s', '$brukerID', '0', '%s', '%s')",
+            $tilkobling->escapeString($_POST["txtNavn"]),
+            $tilkobling->escapeString($_POST["txtBeskrivelse"]),
+            $tilkobling->escapeString($_POST["txtStørrelse"]),
+            $tilkobling->escapeString($_POST["txtPris"]),
+            $tilkobling->escapeString($_POST["lstMerke"])
         );
-        $tilkobling->query($sql);
+        $tilkobling->exec($sql);
         print $sql;
 
         $sql2 = sprintf(
             "SELECT itemID FROM item WHERE navn_item = '%s'",
-            $tilkobling->real_escape_string($_POST["txtNavn"])
+            $tilkobling->escapeString($_POST["txtNavn"])
         );
         $datasett2 = $tilkobling->query($sql2);
 
-        if ($datasett2->num_rows > 0) {
-            // output data of each row
-            while ($row = $datasett2->fetch_assoc()) {
+        if ($datasett2->fetchArray(SQLITE3_ASSOC)) {
+            while ($row = $datasett2->fetchArray(SQLITE3_ASSOC)) {
                 $_SESSION["itemID"] = $row["itemID"];
                 echo "suksess!";
                 echo $_SESSION["itemID"];
                 header("Location:last_opp_bilde.php");
             }
-        } else {echo "feil i opplasting";}
+        } else {
+            echo "feil i opplasting";
+        }
     }
 }
-
-
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -88,7 +82,7 @@ if (isset($_POST["submit"])) {
             <br>
             <label for="lstMerke">Merke:</label>
             <select name="lstMerke">
-                <?php while ($rad = mysqli_fetch_array($datasett2)) { ?>
+                <?php while ($rad = $datasett2->fetchArray(SQLITE3_ASSOC)) { ?>
                     <option value="<?php echo $rad["merkeID"]; ?>"> <?php echo $rad["merke_navn"]; ?>
                     </option>}
                 <?php } ?>

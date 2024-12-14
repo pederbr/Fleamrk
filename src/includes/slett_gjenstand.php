@@ -1,22 +1,20 @@
 <?php
-$tilkobling=mysqli_connect ("localhost","root","", "fleamrk");
+$tilkobling = new SQLite3(__DIR__ . '/fleamrk.db');
 
-$sql=sprintf("DELETE FROM `fleamrk`.`bilder` WHERE gjenstandID=%s",
-$tilkobling->real_escape_string($_GET["itemID"]));
-$datasett=$tilkobling->query($sql);
+$sql = sprintf("DELETE FROM bilder WHERE gjenstandID=%s",
+$tilkobling->escapeString($_GET["itemID"]));
+$tilkobling->exec($sql);
 print $sql;
 
-$sql2=sprintf("DELETE FROM `fleamrk`.`favoritt` WHERE itemID=%s",
-$tilkobling->real_escape_string($_GET["itemID"]));
-$datasett2=$tilkobling->query($sql2);
+$sql2 = sprintf("DELETE FROM favoritt WHERE itemID=%s",
+$tilkobling->escapeString($_GET["itemID"]));
+$tilkobling->exec($sql2);
 print $sql2;
 
-$sql3=sprintf("DELETE FROM `fleamrk`.`item` WHERE itemID=%s",
-$tilkobling->real_escape_string($_GET["itemID"]));
-$datasett3=$tilkobling->query($sql3);
+$sql3 = sprintf("DELETE FROM item WHERE itemID=%s",
+$tilkobling->escapeString($_GET["itemID"]));
+$tilkobling->exec($sql3);
 print $sql3;
 
 header("Location:main.php");
-
-
 ?>

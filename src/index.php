@@ -6,7 +6,7 @@ error_reporting(0);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" media="screen" href="main_style.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="styles/main_style.css" />
     <title>fleamrk</title>
 </head>
 <body>
@@ -17,10 +17,10 @@ error_reporting(0);
     <nav></nav>
     <main>
 <div class="include">
-    <?php include("login.php") ?>
+    <?php include("includes/login.php") ?>
     </div>
     </main>
-    <?php include("footer.html")?>
+    <?php include("includes/footer.html")?>
 
 </body>
 </html>

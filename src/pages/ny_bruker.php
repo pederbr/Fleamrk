@@ -1,63 +1,61 @@
 <?php
 session_start();
+$db_file = __DIR__ . '/../fleamrk.db';
 
-    $tilkobling=mysqli_connect ("localhost","root","", "fleamrk");
-    $sql="SELECT * FROM bruker";
-    $datasett = $tilkobling->query($sql);
+$tilkobling = new SQLite3($db_file);
+$sql = "SELECT * FROM bruker";
+$datasett = $tilkobling->query($sql);
 
-if(isset($_POST["submit"]))
-{
-    $sql = sprintf("SELECT brukerID FROM bruker WHERE brukernavn = '%s'", 
-    $tilkobling->real_escape_string($_POST["txtBrukernavn"]));
+if (isset($_POST["submit"])) {
+    $sql = sprintf(
+        "SELECT brukerID FROM bruker WHERE brukernavn = '%s'",
+        $tilkobling->escapeString($_POST["txtBrukernavn"])
+    );
     $brukersjekk = $tilkobling->query($sql);
-    //sjekker om brukernavn er tatt
     
-    if(mysqli_num_rows($brukersjekk)==1){
+    if ($brukersjekk->fetchArray(SQLITE3_ASSOC)) {
         echo 'Dette brukernavnet er tatt!';
-    } else{
+    } else {
         $txtBrukernavn = $_POST['txtBrukernavn'];
         $txtMail = $_POST['txtMail'];
         $txtFornavn = $_POST['txtFornavn'];
         $txtEtternavn = $_POST['txtEtternavn'];
         $txtTlf = $_POST['txtTlf'];
-    if (empty($txtBrukernavn) || empty($txtMail) || empty($txtFornavn) || empty($txtEtternavn) || empty($txtTlf)) {
-        echo 'Fyll inn alle feltene';
-    } else {
-        //om brukernavnet ikke er tatt så legger den bruker inn
-    $passord = password_hash($_POST["txtPassord"], PASSWORD_DEFAULT);
-    $sql =sprintf("INSERT INTO bruker (brukernavn, email, passord, fornavn, etternavn, telefonnummer) 
-    VALUES ('%s', '%s', '". $passord . "','%s','%s','%s')",
-    $tilkobling->real_escape_string($_POST["txtBrukernavn"]),
-    $tilkobling->real_escape_string($_POST["txtMail"]),
-    $tilkobling->real_escape_string($_POST["txtFornavn"]),
-    $tilkobling->real_escape_string($_POST["txtEtternavn"]),
-    $tilkobling->real_escape_string($_POST["txtTlf"]),
+        if (empty($txtBrukernavn) || empty($txtMail) || empty($txtFornavn) || empty($txtEtternavn) || empty($txtTlf)) {
+            echo 'Fyll inn alle feltene';
+        } else {
+            $passord = password_hash($_POST["txtPassord"], PASSWORD_DEFAULT);
+            $sql = sprintf(
+                "INSERT INTO bruker (brukernavn, email, passord, fornavn, etternavn, telefonnummer) 
+                VALUES ('%s', '%s', '%s', '%s', '%s', '%s')",
+                $tilkobling->escapeString($_POST["txtBrukernavn"]),
+                $tilkobling->escapeString($_POST["txtMail"]),
+                $tilkobling->escapeString($passord),
+                $tilkobling->escapeString($_POST["txtFornavn"]),
+                $tilkobling->escapeString($_POST["txtEtternavn"]),
+                $tilkobling->escapeString($_POST["txtTlf"])
+            );
+            $tilkobling->exec($sql);
 
-         );
-        $tilkobling->query($sql);
+            $sql2 = sprintf(
+                "SELECT brukerID FROM bruker WHERE brukernavn = '%s'",
+                $tilkobling->escapeString($_POST["txtBrukernavn"])
+            );
+            $datasett = $tilkobling->query($sql2);
 
+            if ($datasett->fetchArray(SQLITE3_ASSOC)) {
+                while ($row = $datasett->fetchArray(SQLITE3_ASSOC)) {
+                    $id = $row["brukerID"];
+                }
+            }
 
-        $sql2 = sprintf("SELECT brukerID FROM bruker WHERE brukernavn = '%s'", 
-        $tilkobling->real_escape_string($_POST["txtBrukernavn"]));
-        $datasett = $tilkobling->query($sql2);
+            $_SESSION["brukerID"] = $id;
+            $_SESSION["fornavn"] = $_POST["txtFornavn"];
+            $_SESSION["etternavn"] = $_POST["txtEtternavn"];
 
-        if ($datasett->num_rows > 0) {
-          // output data of each row
-          while($row = $datasett->fetch_assoc()) {
-            $id=$row["brukerID"];
-          }} 
-
-        $_SESSION["brukerID"]=$id;
-        $_SESSION["fornavn"]=$_POST["txtFornavn"]; 
-        $_SESSION["etternavn"]=$_POST["txtEtternavn"]; 
-
-        //print_r($_SESSION); 
-
-        header("Location:login.php");
-            
+            header("Location:login.php");
         }
     }
-
 }
 ?>
 

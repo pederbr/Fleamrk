@@ -1,6 +1,6 @@
 <?php
-    $tilkobling=mysqli_connect ("localhost","root","", "fleamrk");
-    $sql="SELECT item.*, merke_navn, brukernavn, bildenavn FROM item, bruker, merke, bilder
+    $tilkobling = new SQLite3('fleamrk.db');
+    $sql = "SELECT item.*, merke_navn, brukernavn, bildenavn FROM item, bruker, merke, bilder
     WHERE item.selgerID=bruker.brukerID AND item.merkeID=merke.merkeID AND 
     bilder.gjenstandID=item.itemID;";
     $datasett = $tilkobling->query($sql);
@@ -25,8 +25,8 @@
 <body>
 
     <div id="wrapper_sales">
-        <?php while ($rad =mysqli_fetch_array($datasett)) { 
-            if($rad["solgt"]==0) {?>
+        <?php while ($rad = $datasett->fetchArray(SQLITE3_ASSOC)) { 
+            if($rad["solgt"]==0) { ?>
         <div class="display">
             <a href="item.php?itemID=<?php echo $rad["itemID"]; ?>">
                 <img src="bilder_gjenstander/<?php echo $rad["bildenavn"]; ?>" alt="<?php echo $rad["bildenavn"]; ?>">

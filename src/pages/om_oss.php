@@ -1,5 +1,5 @@
 <?php
-    include("top_navbar.php");
+    include("../includes/top_navbar.php");
     ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -1,42 +1,44 @@
 <?php
-    include("top_navbar.php");
-    $tilkobling=mysqli_connect ("localhost","root","", "fleamrk");
-    
-    $sql=sprintf("SELECT item.*, bruker.*, merke.*, bilder.* FROM item, bruker, merke, bilder
-    WHERE item.selgerID=bruker.brukerID AND item.merkeID=merke.merkeID AND bilder.gjenstandID=item.itemID AND itemID=%s",
-    $tilkobling->real_escape_string($_GET["itemID"]));
-    $datasett=$tilkobling->query($sql);
-    //print $sql;
+include("top_navbar.php");
+$tilkobling = new SQLite3('fleamrk.db');
 
-$sql2=sprintf("SELECT * FROM favoritt WHERE brukerID='%s' AND itemID='%s'",
-$tilkobling->real_escape_string($_SESSION["brukerID"]),
-$tilkobling->real_escape_string($_GET["itemID"])
+$sql = sprintf(
+    "SELECT item.*, bruker.*, merke.*, bilder.* FROM item, bruker, merke, bilder
+    WHERE item.selgerID=bruker.brukerID AND item.merkeID=merke.merkeID AND bilder.gjenstandID=item.itemID AND itemID=%s",
+    $tilkobling->escapeString($_GET["itemID"])
+);
+$datasett = $tilkobling->query($sql);
+
+$sql2 = sprintf(
+    "SELECT * FROM favoritt WHERE brukerID='%s' AND itemID='%s'",
+    $tilkobling->escapeString($_SESSION["brukerID"]),
+    $tilkobling->escapeString($_GET["itemID"])
 );
 $datasett2 = $tilkobling->query($sql2);
 
-$sql3=sprintf("SELECT count(itemID) AS likes From favoritt WHERE itemID ='%s'",
-$tilkobling->real_escape_string($_GET["itemID"])
+$sql3 = sprintf(
+    "SELECT count(itemID) AS likes FROM favoritt WHERE itemID ='%s'",
+    $tilkobling->escapeString($_GET["itemID"])
 );
 $datasett3 = $tilkobling->query($sql3);
-//print $sql3;
 
-
-while($rad = mysqli_fetch_array($datasett2)) {
+while ($rad = $datasett2->fetchArray(SQLITE3_ASSOC)) {
     if (isset($rad['brukerID'])) {
-    $favoritt="yes";
-    //print $favoritt;
-}}
+        $favoritt = "yes";
+    }
+}
 
-if(isset($_POST["submit"]))
-{
+if (isset($_POST["submit"])) {
     $bruker = $_SESSION["brukerID"];
     $item = $_GET["itemID"];
-    $sql3 =sprintf("INSERT INTO `fleamrk`.`favoritt` (`itemID`, `brukerID`) VALUES ('$item', '$bruker')");
+    $sql3 = sprintf(
+        "INSERT INTO `favoritt` (`itemID`, `brukerID`) VALUES ('$item', '$bruker')"
+    );
     $tilkobling->query($sql3);
     header("Refresh:0");
-   }
-
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 

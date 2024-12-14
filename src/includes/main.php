@@ -1,12 +1,12 @@
 <?php
-    $tilkobling=mysqli_connect ("localhost","root","", "fleamrk");
+    $tilkobling = new SQLite3(__DIR__ . '/fleamrk.db');
 
-if (isset($_GET["submit"])){
+if (isset($_GET["submit"])) {
     
-$sql= sprintf("SELECT item.*, merke_navn, brukernavn, bildenavn FROM item, bruker, merke, bilder
+$sql = sprintf("SELECT item.*, merke_navn, brukernavn, bildenavn FROM item, bruker, merke, bilder
 WHERE item.selgerID=bruker.brukerID AND item.merkeID=merke.merkeID AND 
 bilder.gjenstandID=item.itemID AND navn_item LIKE '%%%s%%'", 
-$tilkobling->real_escape_string($_GET["txtSokestreng"]));
+$tilkobling->escapeString($_GET["txtSokestreng"]));
 
 $datasett = $tilkobling->query($sql);
     }

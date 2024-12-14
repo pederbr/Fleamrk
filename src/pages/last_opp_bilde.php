@@ -2,11 +2,11 @@
     error_reporting(0);
     include("top_navbar.php");
 
-    $itemID=$_SESSION["itemID"];   
+    $itemID = $_SESSION["itemID"];   
             
-    $tilkobling=mysqli_connect ("localhost","root","", "fleamrk");
-    $sql = sprintf("SELECT item.*, merke_navn FROM item, merke WHERE item.merkeID=merke.merkeID AND  itemID = %s", 
-    $tilkobling->real_escape_string($itemID));    
+    $tilkobling = new SQLite3('fleamrk.db');
+    $sql = sprintf("SELECT item.*, merke_navn FROM item, merke WHERE item.merkeID=merke.merkeID AND itemID=%s", 
+    $tilkobling->escapeString($itemID));    
     $datasett = $tilkobling->query($sql);
     
     //print $sql;
@@ -30,54 +30,45 @@
         $filename = $_FILES["uploadfile"]["name"];
         $newname = generateRandomString() . '.' . pathinfo($filename, PATHINFO_EXTENSION);
         $tempname = $_FILES["uploadfile"]["tmp_name"];	
-            $folder = "bilder_gjenstander/". $newname;
-            //print $folder;
-            //print $filename;
-            //print $tempname;
+        $folder = "bilder_gjenstander/" . $newname;
+        //print $folder;
+        //print $filename;
+        //print $tempname;
             
-        $db = mysqli_connect("localhost", "root", "", "fleamrk");
+        $db = new SQLite3('fleamrk.db');
     
-            // Get all the submitted data from the form
-            $sql2 = "INSERT INTO `fleamrk`.`bilder` (`bildenavn`, `gjenstandID`) VALUES ('$newname', '$itemID')";
-            //print $sql2;
+        // Get all the submitted data from the form
+        $sql2 = "INSERT INTO bilder (bildenavn, gjenstandID) VALUES ('$newname', '$itemID')";
+        //print $sql2;
     
-            // Execute query
-            mysqli_query($db, $sql2);
+        // Execute query
+        $db->exec($sql2);
             
-            // Now let's move the uploaded image into the folder: image
-            if (move_uploaded_file($tempname, $folder)) {
-                $msg = "Image uploaded successfully";
-                //header("Location:main.php");
-                print $msg;
-
-
-            }else{
-                $msg = "Failed to upload image";
-                print $msg;
-                $sql3 = sprintf("DELETE FROM `fleamrk`.`bilder` WHERE (`gjenstandID` = '$itemID')"); 
-                $datasett3 = $tilkobling->query($sql3);
-                //print $sql3;
-
-
+        // Now let's move the uploaded image into the folder: image
+        if (move_uploaded_file($tempname, $folder)) {
+            $msg = "Image uploaded successfully";
+            //header("Location:main.php");
+            print $msg;
+        } else {
+            $msg = "Failed to upload image";
+            print $msg;
+            $sql3 = sprintf("DELETE FROM bilder WHERE gjenstandID = '$itemID'"); 
+            $tilkobling->exec($sql3);
+            //print $sql3;
         }
         //print $msg;
     }
-    $result = mysqli_query($db, "SELECT * FROM bilder");
-
+    $result = $db->query("SELECT * FROM bilder");
 
     if (isset($_GET["slettID"])) { 
-        $sql3 = sprintf("DELETE FROM `bilder` WHERE `gjenstandID` = %s",
-         $tilkobling->real_escape_string($_GET["slettID"]),
-        
+        $sql3 = sprintf("DELETE FROM bilder WHERE gjenstandID = %s",
+         $tilkobling->escapeString($_GET["slettID"])
         ); 
-        $datasett3 = $tilkobling->query($sql3);
+        $tilkobling->exec($sql3);
         unlink($_GET["folder"]);
         //print $sql3;
-        header( "refresh:5;url=last_opp_bilde.php" );
-        }
-
-
-
+        header("refresh:5;url=last_opp_bilde.php");
+    }
 ?>
 
 <!DOCTYPE html>

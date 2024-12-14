@@ -1,26 +1,24 @@
 <?php
     session_start();
-    $tilkobling=mysqli_connect ("localhost","root","", "fleamrk");
+    $tilkobling = new SQLite3('fleamrk.db');
     
-    $sql=sprintf("SELECT item.*, bruker.*, merke.*, bilder.* FROM item, bruker, merke, bilder
+    $sql = sprintf("SELECT item.*, bruker.*, merke.*, bilder.* FROM item, bruker, merke, bilder
     WHERE item.selgerID=bruker.brukerID AND item.merkeID=merke.merkeID AND bilder.gjenstandID=item.itemID AND brukerID=%s",
-    $tilkobling->real_escape_string($_SESSION["brukerID"]));
-    $datasett=$tilkobling->query($sql);
+    $tilkobling->escapeString($_SESSION["brukerID"]));
+    $datasett = $tilkobling->query($sql);
     
-    $sql2=sprintf("SELECT item.*, bruker.*, merke.*, bilder.*, favoritt.* FROM item, bruker, merke, bilder, favoritt WHERE item.selgerID=bruker.brukerID AND item.merkeID=merke.merkeID AND bilder.gjenstandID=item.itemID AND favoritt.itemID=item.itemID AND  favoritt.brukerID='%s'",
-    $tilkobling->real_escape_string($_SESSION["brukerID"]));
-    $datasett2=$tilkobling->query($sql2);
+    $sql2 = sprintf("SELECT item.*, bruker.*, merke.*, bilder.*, favoritt.* FROM item, bruker, merke, bilder, favoritt WHERE item.selgerID=bruker.brukerID AND item.merkeID=merke.merkeID AND bilder.gjenstandID=item.itemID AND favoritt.itemID=item.itemID AND favoritt.brukerID='%s'",
+    $tilkobling->escapeString($_SESSION["brukerID"]));
+    $datasett2 = $tilkobling->query($sql2);
 
-    $sql3=sprintf("SELECT * FROM fleamrk.bruker WHERE brukerID='%s'",
-    $tilkobling->real_escape_string($_SESSION["brukerID"]));
-    $datasett3=$tilkobling->query($sql3);
+    $sql3 = sprintf("SELECT * FROM bruker WHERE brukerID='%s'",
+    $tilkobling->escapeString($_SESSION["brukerID"]));
+    $datasett3 = $tilkobling->query($sql3);
 
     /*print $sql;
     print $sql2;
     print $sql3;*/
-
-
-    ?>
+?>
 
 <!DOCTYPE html>
 <html lang="en">

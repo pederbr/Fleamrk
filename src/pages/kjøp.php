@@ -1,17 +1,20 @@
 <?php
 session_start();
-$tilkobling=mysqli_connect ("localhost","root","", "fleamrk");
+$tilkobling = new SQLite3('fleamrk.db');
 
-$sql=sprintf("UPDATE `fleamrk`.`item` SET `solgt` = '1' WHERE itemID=%s;",
-$tilkobling->real_escape_string($_GET["itemID"]));
-$datasett=$tilkobling->query($sql);
+$sql = sprintf(
+    "UPDATE item SET solgt = '1' WHERE itemID=%s;",
+    $tilkobling->escapeString($_GET["itemID"])
+);
+$tilkobling->exec($sql);
 
-$sql2=sprintf("SELECT bruker.*,item.* FROM bruker, item WHERE bruker.brukerID=item.selgerID AND itemID=%s;",
-$tilkobling->real_escape_string($_GET["itemID"]));
-$datasett2=$tilkobling->query($sql2);
+$sql2 = sprintf(
+    "SELECT bruker.*, item.* FROM bruker, item WHERE bruker.brukerID=item.selgerID AND itemID=%s;",
+    $tilkobling->escapeString($_GET["itemID"])
+);
+$datasett2 = $tilkobling->query($sql2);
 
-//print $sql2;
-header( "refresh:5;url=main.php" );
+header("refresh:5;url=main.php");
 ?>
 
 <!DOCTYPE html>
@@ -51,7 +54,7 @@ header( "refresh:5;url=main.php" );
 <body>
     <div id="main_text">
         <h1>Gratulerer med ditt kjøp!</h1>
-        <?php while ($rad =mysqli_fetch_array($datasett2)) { ?>
+        <?php while ($rad = $datasett2->fetchArray()) { ?>
             
         <h2>ta kontakt med selger på: <?php echo $rad["telefonnummer"]; ?></h2>
         <?php } ?>
