@@ -1,6 +1,6 @@
 <?php
-include("top_navbar.php");
-$tilkobling = new SQLite3('fleamrk.db');
+    include("/../includes/top_navbar.php");
+    $tilkobling = new SQLite3(filename: __DIR__ . '/../resources/db/fleamrk.db');
 
 $sql2 = "SELECT * FROM merke";
 $datasett2 = $tilkobling->query($sql2);
@@ -56,7 +56,7 @@ if (isset($_POST["submit"])) {
 <head>
     <title> Sidetittel</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" media="screen" href="main_style.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/styles/main_style.css" />
     <link rel="stylesheet" type="text/css" media="print" href="utskrift.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 

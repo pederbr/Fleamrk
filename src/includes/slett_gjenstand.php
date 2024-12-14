@@ -1,5 +1,5 @@
 <?php
-$tilkobling = new SQLite3(__DIR__ . '/fleamrk.db');
+$tilkobling = new SQLite3(filename: __DIR__ . '/../resources/db/fleamrk.db');
 
 $sql = sprintf("DELETE FROM bilder WHERE gjenstandID=%s",
 $tilkobling->escapeString($_GET["itemID"]));

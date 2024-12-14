@@ -1,7 +1,7 @@
 <?php
 
 // Create (connect to) SQLite database in the project folder
-$conn = new SQLite3(__DIR__ . '/fleamrk.db');
+$conn = new SQLite3(filename: __DIR__ . '/../resources/db/fleamrk.db');
 
 
 // Create tables

@@ -5,7 +5,7 @@ require_once("setup_database.php");
 error_reporting(0);
 
 if(isset($_SESSION["brukerID"])){
-    header("Location:main.php");
+    header("Location:../pages/main.php");
 }
 else{
     print $_SESSION["brukerID"];
@@ -14,11 +14,11 @@ else{
 if (isset($_POST['submit'])) { 
     
     /*Lager en tilkobling til databasen*/
-    $tilkobling = new SQLite3(__DIR__ . '/fleamrk.db');
+    $tilkobling = new SQLite3(filename: __DIR__ . '/../resources/db/fleamrk.db');
 
     /*Henter brukernavnet og passord fra databasen basert på brukernavnet som er skrevet inn*/
     $sql = sprintf("SELECT * FROM bruker WHERE brukernavn='%s'",
-            $tilkobling->escapeString($_POST["user"])
+            $tilkobling->escapeString(string: $_POST["user"])
                 );
     $datasett = $tilkobling->query($sql); 
 
@@ -35,7 +35,7 @@ if (isset($_POST['submit'])) {
                 $_SESSION["fornavn"] = $rad["fornavn"]; 
                 $_SESSION["etternavn"] = $rad["etternavn"]; 
 
-                header("Location:main.php");
+                header("Location:../pages/main.php");
             } 
             
             /*Hvis det ikke stemmer skjer dette*/
@@ -52,8 +52,10 @@ if (isset($_POST['submit'])) {
 <html>
 
 <head>
-    <title>Login Form in PHP with Session</title>
-    <link href="style.css" rel="stylesheet" type="text/css">
+    <title>Logg inn</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="/styles/main_style.css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
@@ -68,7 +70,7 @@ if (isset($_POST['submit'])) {
         </form>
     </div>
     har du ikke bruker?  
-    <a href="../pages/ny_bruker.php">Registrer deg her</a>
+    <a href="/pages/ny_bruker.php">Registrer deg her</a>
     
 </body>
 

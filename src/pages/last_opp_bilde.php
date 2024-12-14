@@ -1,10 +1,10 @@
 <?php 
     error_reporting(0);
-    include("top_navbar.php");
+    include("/../includes/top_navbar.php");
 
     $itemID = $_SESSION["itemID"];   
             
-    $tilkobling = new SQLite3('fleamrk.db');
+    $tilkobling = new SQLite3(filename: __DIR__ . '/../resources/db/fleamrk.db');
     $sql = sprintf("SELECT item.*, merke_navn FROM item, merke WHERE item.merkeID=merke.merkeID AND itemID=%s", 
     $tilkobling->escapeString($itemID));    
     $datasett = $tilkobling->query($sql);
@@ -117,7 +117,7 @@
     </style>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" type="text/css" media="screen" href="main_style.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/styles/main_style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>last_opp_bilde</title>
 </head>

@@ -10,7 +10,7 @@ error_reporting(0);
     <title>fleamrk</title>
 </head>
 <body>
-    <header>
+    <header style="padding-top: 2rem;">
         <h1>Velkommen til fleamrk</h1>
         <h2>Kjøp bruktklær online!</h2>
     </header>

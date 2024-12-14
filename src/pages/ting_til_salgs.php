@@ -1,5 +1,5 @@
 <?php
-    $tilkobling = new SQLite3('fleamrk.db');
+    $tilkobling = new SQLite3(filename: __DIR__ . '/../resources/db/fleamrk.db');
     $sql = "SELECT item.*, merke_navn, brukernavn, bildenavn FROM item, bruker, merke, bilder
     WHERE item.selgerID=bruker.brukerID AND item.merkeID=merke.merkeID AND 
     bilder.gjenstandID=item.itemID;";
@@ -16,7 +16,7 @@
     </style>
     <title> ting_til_salgs</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" media="screen" href=" main_style.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/styles/main_style.css" />
     <link rel="stylesheet" type="text/css" media="print" href="utskrift.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>

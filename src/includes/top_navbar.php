@@ -1,44 +1,6 @@
 <?php
 session_start();
 error_reporting(0);
-
-class SQLiteSessionHandler extends SQLite3 implements SessionHandlerInterface {
-    public function __construct($dbFile) {
-        $this->open($dbFile);
-    }
-
-    public function open($savePath, $sessionName) {
-        return true;
-    }
-
-    public function close() {
-        return $this->close();
-    }
-
-    public function read($id) {
-        $result = $this->querySingle("SELECT data FROM sessions WHERE id = '$id'");
-        return $result ? $result : '';
-    }
-
-    public function write($id, $data) {
-        $this->exec("REPLACE INTO sessions (id, data) VALUES ('$id', '$data')");
-        return true;
-    }
-
-    public function destroy($id) {
-        $this->exec("DELETE FROM sessions WHERE id = '$id'");
-        return true;
-    }
-
-    public function gc($maxlifetime) {
-        $this->exec("DELETE FROM sessions WHERE strftime('%s', 'now') - strftime('%s', timestamp) > $maxlifetime");
-        return true;
-    }
-}
-
-$handler = new SQLiteSessionHandler('sessions.db');
-session_set_save_handler($handler, true);
-session_start();
 ?>
 
 <!DOCTYPE html>

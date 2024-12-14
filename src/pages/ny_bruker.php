@@ -1,8 +1,7 @@
 <?php
 session_start();
-$db_file = __DIR__ . '/../fleamrk.db';
 
-$tilkobling = new SQLite3($db_file);
+$tilkobling = new SQLite3(filename: __DIR__ . '/../resources/db/fleamrk.db');
 $sql = "SELECT * FROM bruker";
 $datasett = $tilkobling->query($sql);
 
@@ -53,7 +52,7 @@ if (isset($_POST["submit"])) {
             $_SESSION["fornavn"] = $_POST["txtFornavn"];
             $_SESSION["etternavn"] = $_POST["txtEtternavn"];
 
-            header("Location:login.php");
+            header("Location:../includes/login.php");
         }
     }
 }
@@ -66,7 +65,7 @@ if (isset($_POST["submit"])) {
 <head>
     <title> Sidetittel</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" media="screen" href="main_style.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/styles/main_style.css" />
     <link rel="stylesheet" type="text/css" media="print" href="utskrift.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -110,7 +109,7 @@ if (isset($_POST["submit"])) {
     </div>
     <p>
     har du allerede bruker?
-    <a href="index.php">Logg inn her</a>
+    <a href="/index.php">Logg inn her</a>
     </p>
     </main>
     <?php include("footer.html")?>
