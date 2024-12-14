@@ -1,5 +1,4 @@
 <?php
-    include(__DIR__ . "/../includes/top_navbar.php");
     $tilkobling = new SQLite3(__DIR__ . '/../resources/db/fleamrk.db');
     
 if (isset($_POST["submit"])) {
@@ -47,8 +46,6 @@ if (isset($_POST["submit"])) {
         </form>
 
     </div>
-    <?php include(__DIR__ . "/../includes/footer.html")?>
-
 </body>
 
 </html>

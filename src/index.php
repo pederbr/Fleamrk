@@ -17,7 +17,7 @@ error_reporting(0);
     <nav></nav>
     <main>
 <div class="include">
-    <?php include("includes/login.php") ?>
+    <?php include("pages/login.php") ?>
     </div>
     </main>
     <?php include("includes/footer.html")?>

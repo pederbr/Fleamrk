@@ -1,6 +1,6 @@
 <?php
 session_start();
-if($_SESSION["brukerID"]==14){
+if($_SESSION["brukerID"]==1){
 
     $tilkobling=mysqli_connect ("localhost","root","", "fleamrk");
     $sql="SELECT * FROM bruker";
@@ -91,10 +91,6 @@ if($_SESSION["brukerID"]==14){
 <!-- seksjon for hovedinnhold -->
 
 <body>
-    <div id="wrapper">
-        <header></header>
-        <nav> <a href="main.php">home</a> </nav>
-        <main>
             <article>
                 <div id="list_users">
                     <h2>Brukere:</h2>

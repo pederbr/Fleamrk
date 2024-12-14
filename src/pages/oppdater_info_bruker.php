@@ -1,5 +1,4 @@
 <?php
-    include(__DIR__ . "/../includes/top_navbar.php");
     $tilkobling = new SQLite3(__DIR__ . '/../resources/db/fleamrk.db');
 
     $stmt = $tilkobling->prepare(
@@ -68,7 +67,6 @@
 </head>
 
 <body>
-    <main>
     <form method="post">
             <?php if($rad = $datasett->fetchArray(SQLITE3_ASSOC)) { ?>
             <br>
@@ -90,9 +88,6 @@
             <input type="submit" name="submit" value="oppdater bruker">
             <?php } ?>
         </form>
-    </main>
-    <?php include(__DIR__ . "/../includes/footer.html")?>
-
 </body>
 
 </html>

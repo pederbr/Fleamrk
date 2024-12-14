@@ -55,19 +55,6 @@
 </head>
 
 <body>
-    <nav>
-        <div id="float_left">
-            <a href="main.php"><img src="website_pictures\fleamrk XS.png" alt="fleamrk"></a>
-            <?php if(isset($_SESSION["brukerID"])){echo "<a href='ny_gjenstand.php'>legg ut</a>";}?>
-            <a href="om_oss.php">om oss</a>
-            <?php if($_SESSION["brukerID"]==14){echo "<a href='admin.php'>admin</a>";} ?>
-        </div>
-        <div id="float_right">
-            <a href='logout.php'>logg ut</a>
-        </div>
-    </nav>
-    <main>
-
         <div id="om_meg">
             <?php while ($rad = $datasett3->fetchArray(SQLITE3_ASSOC)) { ?>
             <h1>om deg</h1>
@@ -118,8 +105,6 @@
             </div>
         </article>
     </main>
-    <?php include(__DIR__ . "/../includes/footer.html")?>
-
 </body>
 
 </html>

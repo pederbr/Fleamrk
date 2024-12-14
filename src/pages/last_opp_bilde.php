@@ -1,6 +1,5 @@
 <?php 
     error_reporting(0);
-    include(__DIR__ . "/../includes/top_navbar.php");
 
     $itemID = $_SESSION["itemID"];   
             
@@ -77,7 +76,7 @@
         $stmt3->execute();
         unlink($_GET["folder"]);
         //print $stmt3;
-        header("refresh:5;url=last_opp_bilde.php");
+        header("refresh:5;url=main.php?page=last_opp_bilde");
     }
 ?>
 
@@ -151,8 +150,7 @@
                 </div>
         </form>
     </div>
-    <?php include(__DIR__ . "/../includes/footer.html")?>
-    <script></script>
+    <script>
         document.getElementById("upload").onchange = function () {
             document.getElementById("submitbutton").click();
         }

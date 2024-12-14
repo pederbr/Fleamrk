@@ -1,5 +1,4 @@
 <?php
-    include(__DIR__ . "/../includes/top_navbar.php");
     $tilkobling = new SQLite3(__DIR__ . '/../resources/db/fleamrk.db');
 
 $sql2 = "SELECT * FROM merke";
@@ -40,7 +39,7 @@ if (isset($_POST["submit"])) {
                 $_SESSION["itemID"] = $row["itemID"];
                 echo "suksess!";
                 echo $_SESSION["itemID"];
-                header("Location:last_opp_bilde.php");
+                header("Location:main.php?page=last_opp_bilde");
             }
         } else {
             echo "feil i opplasting";
@@ -87,12 +86,11 @@ if (isset($_POST["submit"])) {
                     </option>}
                 <?php } ?>
             </select>
-            <p> ser du ikke ditt merke? <a href="nytt_merke.php" target="_blank">lag ditt eget!</a></p>
+            <p> ser du ikke ditt merke? <a href="main.php?page=nytt_merke" target="_blank">lag ditt eget!</a></p>
             <input type="submit" name="submit" value="Legg inn gjenstand">
         </form>
 
     </div>
-    <?php include(__DIR__ . "/../includes/footer.html")?>
 
 </body>
 

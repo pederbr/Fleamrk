@@ -181,8 +181,7 @@ if (isset($_POST["submit"])) {
 </head>
 
 <body>
-    <main>
-        <div class="item_large">
+    <div class="item_large">
         <?php while ($verdi = $datasett->fetchArray(SQLITE3_ASSOC)) {
                 if ($verdi['brukerID'] == $_SESSION["brukerID"]) {
                     $min_gjenstand = "yes";
@@ -237,9 +236,6 @@ if (isset($_POST["submit"])) {
             <h2>Andre gjenstander til salgs</h2>
         </div>
         <?php include("ting_til_salgs.php")?>
-    </main>
-    <?php include(__DIR__ . "/../includes/footer.html")?>
-
 </body>
 
 </html>

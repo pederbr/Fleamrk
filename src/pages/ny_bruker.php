@@ -81,9 +81,9 @@ if (isset($_POST["submit"])) {
 <!-- seksjon for hovedinnhold -->
 
 <body>
-    <main>
-    <h2>Ny bruker:</h2>
     <div id="form_wrapper">
+    <h2>Ny bruker:</h2>
+
         <form id="add" method="post">
             <br>
             <label for="txtBrukernavn"> Brukernavn:</label>
@@ -106,14 +106,12 @@ if (isset($_POST["submit"])) {
             <br>
             <input type="submit" name="submit" value="Lag ny bruker">
         </form>
-    </div>
     <p>
     har du allerede bruker?
     <a href="/index.php">Logg inn her</a>
-    </p>
-    </main>
-    <?php include(__DIR__ . "/../includes/footer.html")?>
-   
+    </p>   
+    </div>
+
 </body>
 
 </html>

@@ -1,6 +1,3 @@
-<?php
-    include(__DIR__ . "/../includes/top_navbar.php");
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,50 +5,74 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" media="screen" href="/styles/main_style.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/main_style.css" />
     <title>Om oss</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #333;
+            text-align: center;
+        }
+
         #fancy_text {
             display: flex;
             flex-wrap: wrap;
-            margin: 10px;
+            margin: 20px 0;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         #fancy_text p {
             font-size: 1.2rem;
+            color: #555;
+            margin: 10px 0;
         }
 
         #fancy_text img {
             width: 30%;
-        }
-        #width_65 { width: 65%;}
-        h2 {width: 100%;}
-
-        @media screen and (max-width: 500px) { 
-            
-        #fancy_text {
-            text-align: center;
-        }
-
-
-        #fancy_text p { 
-            font-size: 1rem;
+            margin: 10px;
+            border-radius: 8px;
         }
 
         #width_65 {
-            width: 100%;   
+            width: 65%;
+            padding: 10px;
         }
 
-        #fancy_text img {
-            width: 100%;
-        }
+        @media screen and (max-width: 768px) {
+            #fancy_text {
+                flex-direction: column;
+                text-align: center;
+            }
 
+            #width_65, #fancy_text img {
+                width: 100%;
+            }
+
+            #fancy_text img {
+                margin: 0 auto;
+            }
         }
     </style>
 </head>
 
 <body>
-    <main>
+    <div class="container">
         <article>
             <div class="margin">
                 <h1>Om oss</h1>
@@ -74,7 +95,7 @@
                         ipsam culpa necessitatibus possimus similique, sit aliquam eum itaque commodi recusandae ducimus
                         inventore consequuntur quasi laudantium error! Inventore, sit.</p>
                 </div>
-                <img src="website_pictures\fleamrk_L.png" alt="logo">
+                <img src="../styles/website_pictures/fleamrk_L.png" alt="logo">
                 <br>
                 <h2>Lorem Ipsum</h2>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis laboriosam possimus quis blanditiis
@@ -87,9 +108,7 @@
                     consectetur!</p>
             </div>
         </article>
-    </main>
-    <?php include(__DIR__ . "/../includes/footer.html")?>
-
+    </div>
 </body>
 
 </html>
