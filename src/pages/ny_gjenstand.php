@@ -1,6 +1,6 @@
 <?php
-    include("/../includes/top_navbar.php");
-    $tilkobling = new SQLite3(filename: __DIR__ . '/../resources/db/fleamrk.db');
+    include(__DIR__ . "/../includes/top_navbar.php");
+    $tilkobling = new SQLite3(__DIR__ . '/../resources/db/fleamrk.db');
 
 $sql2 = "SELECT * FROM merke";
 $datasett2 = $tilkobling->query($sql2);
@@ -92,7 +92,7 @@ if (isset($_POST["submit"])) {
         </form>
 
     </div>
-    <?php include("footer.html") ?>
+    <?php include(__DIR__ . "/../includes/footer.html")?>
 
 </body>
 

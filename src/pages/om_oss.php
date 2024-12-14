@@ -1,6 +1,6 @@
 <?php
-    include("/../includes/top_navbar.php");
-    ?>
+    include(__DIR__ . "/../includes/top_navbar.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -88,7 +88,7 @@
             </div>
         </article>
     </main>
-    <?php include("footer.html")?>
+    <?php include(__DIR__ . "/../includes/footer.html")?>
 
 </body>
 

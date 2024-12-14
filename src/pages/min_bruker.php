@@ -1,6 +1,6 @@
 <?php
     session_start();
-    $tilkobling = new SQLite3(filename: __DIR__ . '/../resources/db/fleamrk.db');
+    $tilkobling = new SQLite3(__DIR__ . '/../resources/db/fleamrk.db');
     
     $sql = sprintf("SELECT item.*, bruker.*, merke.*, bilder.* FROM item, bruker, merke, bilder
     WHERE item.selgerID=bruker.brukerID AND item.merkeID=merke.merkeID AND bilder.gjenstandID=item.itemID AND brukerID=%s",
@@ -110,7 +110,7 @@
             </div>
         </article>
     </main>
-    <?php include("footer.html")?>
+    <?php include(__DIR__ . "/../includes/footer.html")?>
 
 </body>
 

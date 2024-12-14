@@ -1,6 +1,6 @@
 <?php
 session_start();
-$tilkobling = new SQLite3(filename: __DIR__ . '/../resources/db/fleamrk.db');
+$tilkobling = new SQLite3(__DIR__ . '/../resources/db/fleamrk.db');
 
 $sql = sprintf(
     "UPDATE item SET solgt = '1' WHERE itemID=%s;",

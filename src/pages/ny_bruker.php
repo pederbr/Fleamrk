@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$tilkobling = new SQLite3(filename: __DIR__ . '/../resources/db/fleamrk.db');
+$tilkobling = new SQLite3(__DIR__ . '/../resources/db/fleamrk.db');
 $sql = "SELECT * FROM bruker";
 $datasett = $tilkobling->query($sql);
 
@@ -112,7 +112,7 @@ if (isset($_POST["submit"])) {
     <a href="/index.php">Logg inn her</a>
     </p>
     </main>
-    <?php include("footer.html")?>
+    <?php include(__DIR__ . "/../includes/footer.html")?>
    
 </body>
 

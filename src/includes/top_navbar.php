@@ -17,15 +17,15 @@ error_reporting(0);
 <body>
     <nav>
         <div id="float_left">
-            <a href="main.php"><img src="website_pictures\fleamrk XS.png" alt="fleamrk"></a>
-            <?php if(isset($_SESSION["brukerID"])){echo "<a href='ny_gjenstand.php'>legg ut</a>";}?>
-            <a href="om_oss.php">om oss</a>
-            <?php if($_SESSION["brukerID"]==14){echo "<a href='admin.php'>admin</a>";} ?>
+            <a href="../pages/main.php"><img src="../styles/website_pictures/fleamrk XS.png" alt="fleamrk"></a>
+            <?php if(isset($_SESSION["brukerID"])){echo "<a href='../pages/ny_gjenstand.php'>legg ut</a>";}?>
+            <a href="../pages/om_oss.php">om oss</a>
+            <?php if($_SESSION["brukerID"]==14){echo "<a href='../pages/admin.php'>admin</a>";} ?>
         </div>
         <div id="float_right">
             <?php if(isset($_SESSION["brukerID"])){echo 
-            "<a href='min_bruker.php'> hei " . $_SESSION['fornavn']. "</a>";}
-           else{echo "<a href='index.php'>logg inn</a>"; }?>
+            "<a href='../pages/min_bruker.php'> hei " . $_SESSION['fornavn']. "</a>";}
+           else{echo "<a href='../pages/index.php'>logg inn</a>"; }?>
         </div>
     </nav>
 

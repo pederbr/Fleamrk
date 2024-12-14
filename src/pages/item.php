@@ -1,6 +1,6 @@
 <?php
-    include("/../includes/top_navbar.php");
-    $tilkobling = new SQLite3(filename: __DIR__ . '/../resources/db/fleamrk.db');
+    include(__DIR__ . "/../includes/top_navbar.php");
+    $tilkobling = new SQLite3(__DIR__ . '/../resources/db/fleamrk.db');
 
 $sql = sprintf(
     "SELECT item.*, bruker.*, merke.*, bilder.* FROM item, bruker, merke, bilder
@@ -236,7 +236,7 @@ if (isset($_POST["submit"])) {
         </div>
         <?php include("ting_til_salgs.php")?>
     </main>
-    <?php include("footer.html")?>
+    <?php include(__DIR__ . "/../includes/footer.html")?>
 
 </body>
 

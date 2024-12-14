@@ -1,52 +1,60 @@
 <!--php-kode starter-->
 <?php
 session_start();
-require_once("setup_database.php");
-error_reporting(0);
+#require_once("setup_database.php");
+error_reporting(E_ALL); // Enable error reporting
+ini_set('display_errors', 1);
 
 if(isset($_SESSION["brukerID"])){
     header("Location:../pages/main.php");
+    exit(); // Ensure script stops after redirection
 }
-else{
-    print $_SESSION["brukerID"];
-    
+
 /*Sjekker om submit-knappen er trykket*/
 if (isset($_POST['submit'])) { 
     
     /*Lager en tilkobling til databasen*/
-    $tilkobling = new SQLite3(filename: __DIR__ . '/../resources/db/fleamrk.db');
+    $tilkobling = new SQLite3(__DIR__ . '/../resources/db/fleamrk.db');
+
+    if (!$tilkobling) {
+        die("Database connection failed: " . $tilkobling->lastErrorMsg());
+    }
 
     /*Henter brukernavnet og passord fra databasen basert på brukernavnet som er skrevet inn*/
     $sql = sprintf("SELECT * FROM bruker WHERE brukernavn='%s'",
-            $tilkobling->escapeString(string: $_POST["user"])
+            $tilkobling->escapeString($_POST["user"])
                 );
     $datasett = $tilkobling->query($sql); 
+
+    if (!$datasett) {
+        die("Query failed: " . $tilkobling->lastErrorMsg());
+    }
 
     /* Henter datasettet */
     if($datasett->numColumns() > 0){
         if ($rad = $datasett->fetchArray(SQLITE3_ASSOC)) { 
             /*Sjekker om passord matcher det i databasen*/
-            if (password_verify($_POST["pass"], $rad["passord"]))
-            
-            /*Hvis det stemmer skjer dette*/
-            { 
+            if (password_verify($_POST["pass"], $rad["passord"])) {
+                /*Hvis det stemmer skjer dette*/
                 /*legger medlemsid og navn i hver sin session-variabel slik at jeg kan bruke dem på andre sider*/
                 $_SESSION["brukerID"] = $rad["brukerID"];
                 $_SESSION["fornavn"] = $rad["fornavn"]; 
                 $_SESSION["etternavn"] = $rad["etternavn"]; 
 
                 header("Location:../pages/main.php");
+                exit(); // Ensure script stops after redirection
+            } else { 
+                echo "Feil passord. Vennligst prøv igjen."; 
             } 
-            
-            /*Hvis det ikke stemmer skjer dette*/
-            else { echo "feil passord "; } 
+        } else { 
+            echo 'Brukernavn finnes ikke. Vennligst prøv igjen.'; 
         }
+    } else { 
+        echo 'Brukernavn finnes ikke. Vennligst prøv igjen.'; 
     }
-    else { echo 'brukernavn finnes ikke';}
 }
-}
-/*PHP-kode slutter*/
 ?>
+<!--PHP-kode slutter-->
 
 <!DOCTYPE html>
 <html>

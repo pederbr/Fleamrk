@@ -1,6 +1,6 @@
 <?php 
     error_reporting(0);
-    include("/../includes/top_navbar.php");
+    include(__DIR__ . "/../includes/top_navbar.php");
 
     $itemID = $_SESSION["itemID"];   
             
@@ -141,7 +141,7 @@
                 </div>
         </form>
     </div>
-    <?php include("footer.html")?>
+    <?php include(__DIR__ . "/../includes/footer.html")?>
     <script>
         document.getElementById("upload").onchange = function () {
             document.getElementById("submitbutton").click();

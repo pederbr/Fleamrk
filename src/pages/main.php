@@ -1,5 +1,5 @@
 <?php
-    $tilkobling = new SQLite3(filename: __DIR__ . '/../resources/db/fleamrk.db');
+    $tilkobling = new SQLite3(__DIR__ . '/../resources/db/fleamrk.db');
 
 if (isset($_GET["submit"])) {
     
@@ -19,7 +19,7 @@ $datasett = $tilkobling->query($sql);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" media="screen" href="main_style.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/main_style.css" />
     <title>main</title>
     <style>
         #hidden {
@@ -32,7 +32,7 @@ $datasett = $tilkobling->query($sql);
 
 <body>
     <?php 
-    include("top_navbar.php");?>
+    include(__DIR__ . "/../includes/top_navbar.php");?>
     <main>
         <div class="margin">
             <h1>Ting til salgs</h1>
@@ -48,7 +48,7 @@ $datasett = $tilkobling->query($sql);
                     if($rad["solgt"]==0) {?>
                         <div class="display">
                             <a href="item.php?itemID=<?php echo $rad["itemID"]; ?>">
-                                <img src="bilder_gjenstander/<?php echo $rad["bildenavn"]; ?>"
+                                <img src="../bilder_gjenstander/<?php echo $rad["bildenavn"]; ?>"
                                     alt="<?php echo $rad["bildenavn"]; ?>">
                                 <h3><?php echo $rad["navn_item"]; ?></h3>
                                 <h4><?php echo $rad["pris"]; ?> kr</h4>
@@ -56,9 +56,9 @@ $datasett = $tilkobling->query($sql);
                             </a>
                         </div>
         <?php }}?> </div>
-    <?php }else{include("ting_til_salgs.php");} ?>
+    <?php }else{include("../includes/ting_til_salgs.php");} ?>
     </main>
-    <?php include("footer.html")?>
+    <?php include(__DIR__ . "/../includes/footer.html")?>
 
 </body>
 

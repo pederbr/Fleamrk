@@ -1,6 +1,6 @@
 <?php
-    include("/../includes/top_navbar.php");
-    $tilkobling = new SQLite3(filename: __DIR__ . '/../resources/db/fleamrk.db');
+    include(__DIR__ . "/../includes/top_navbar.php");
+    $tilkobling = new SQLite3(__DIR__ . '/../resources/db/fleamrk.db');
 
     $sql = sprintf("SELECT * FROM bruker WHERE brukerID=%s",
     $tilkobling->escapeString($_GET["oppdaterID"]));
@@ -85,7 +85,7 @@
             <?php } ?>
         </form>
     </main>
-    <?php include("footer.html")?>
+    <?php include(__DIR__ . "/../includes/footer.html")?>
 
 </body>
 
