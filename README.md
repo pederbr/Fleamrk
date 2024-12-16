@@ -3,7 +3,7 @@
 
 ## Introduction
 
-Fleamrk is a used-market for buying and selling used goods.
+Fleamrk is a used-market for buying and selling used goods. 
 
 This is a fullstack web-app written in PHP and SQLite3.
 
@@ -26,11 +26,23 @@ This is a fullstack web-app written in PHP and SQLite3.
 2. Enable the SQLite3 extension in your php.ini file
 3. Run the following command in the src directory of the project:
 ```bash
-php -S localhost:8000
+php -S localhost:8000 -t src
 ```
 4. Open your browser and go to localhost:8000
 
+## Pictures
+
+### Login page
+![login](public/login.png)
+
+### Main page
+![main](public/main.png)
+
+### Item page
+![item](public/item.png)
+
 
 ## Authors
+
 Written by Peder Brennum
 

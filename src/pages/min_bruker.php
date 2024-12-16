@@ -65,6 +65,9 @@
             <a href="/pages/main.php?page=oppdater_info_bruker">
                 <h2>oppdater info</h2>
             </a>
+            <a href="../includes/logg_ut.php">
+                <h2>logg ut</h2>
+            </a>
             <?php } ?>
         </div>
 
