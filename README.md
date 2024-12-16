@@ -36,7 +36,7 @@ php -S localhost:8000 -t src
 ![login](public/login.png)
 
 ### Main page
-![main](public/main.png)
+![main](public/main_page.png)
 
 ### Item page
 ![item](public/item.png)
