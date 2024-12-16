@@ -1,4 +1,3 @@
-
 <?php
     $tilkobling = new SQLite3(__DIR__ . '/../resources/db/fleamrk.db');
 
@@ -40,11 +39,11 @@ $datasett = $tilkobling->query($sql);
             </form>
             <div id="wrapper_sales">
                 <?php if(isset($datasett)) {
-                    while ($rad=mysqli_fetch_array($datasett)) {
+                    while ($rad = $datasett->fetchArray(SQLITE3_ASSOC)) {
                         if($rad["solgt"]==0) {?>
                             <div class="display">
                                 <a href="item.php?itemID=<?php echo $rad["itemID"]; ?>">
-                                    <img src="../bilder_gjenstander/<?php echo $rad["bildenavn"]; ?>"
+                                    <img src="../resources/image_items<?php echo $rad["bildenavn"]; ?>"
                                         alt="<?php echo $rad["bildenavn"]; ?>">
                                     <h3><?php echo $rad["navn_item"]; ?></h3>
                                     <h4><?php echo $rad["pris"]; ?> kr</h4>

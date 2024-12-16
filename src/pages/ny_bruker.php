@@ -66,7 +66,6 @@ if (isset($_POST["submit"])) {
     <title> Sidetittel</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" media="screen" href="/styles/main_style.css" />
-    <link rel="stylesheet" type="text/css" media="print" href="utskrift.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         h2, p {

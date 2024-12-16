@@ -1,6 +1,7 @@
 <?php 
     error_reporting(0);
 
+    session_start();
     $itemID = $_SESSION["itemID"];   
             
     $tilkobling = new SQLite3(__DIR__ . '/../resources/db/fleamrk.db');
@@ -45,38 +46,18 @@
         $stmt2->bindValue(':bildenavn', $newname, SQLITE3_TEXT);
         $stmt2->bindValue(':gjenstandID', $itemID, SQLITE3_TEXT);
         //print $stmt2;
-    
-        // Execute query
-        $stmt2->execute();
-            
-        // Now let's move the uploaded image into the folder: image
-        if (move_uploaded_file($tempname, $folder)) {
-            $msg = "Image uploaded successfully";
-            //header("Location:main.php");
-            print $msg;
-        } else {
-            $msg = "Failed to upload image";
-            print $msg;
-            $stmt3 = $tilkobling->prepare(
-                "DELETE FROM bilder WHERE gjenstandID = :gjenstandID"
-            );
-            $stmt3->bindValue(':gjenstandID', $itemID, SQLITE3_TEXT);
-            $stmt3->execute();
-            //print $stmt3;
-        }
-        //print $msg;
-    }
-    $result = $db->query("SELECT * FROM bilder");
 
-    if (isset($_GET["slettID"])) { 
-        $stmt3 = $tilkobling->prepare(
-            "DELETE FROM bilder WHERE gjenstandID = :gjenstandID"
-        );
-        $stmt3->bindValue(':gjenstandID', $_GET["slettID"], SQLITE3_TEXT);
-        $stmt3->execute();
-        unlink($_GET["folder"]);
-        //print $stmt3;
-        header("refresh:5;url=main.php?page=last_opp_bilde");
+        // Execute the query
+        if ($stmt2->execute()) {
+            // Now let's move the uploaded file into the folder
+            if (move_uploaded_file($tempname, $folder)) {
+                $msg = "Image uploaded successfully";
+            } else {
+                $msg = "Failed to upload image";
+            }
+        } else {
+            $msg = "Failed to insert image data into database";
+        }
     }
 ?>
 

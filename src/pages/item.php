@@ -188,7 +188,7 @@ if (isset($_POST["submit"])) {
                     }?>
             <h1><?php echo $verdi["navn_item"]; ?></h1>
             <div class="column">
-                <img src="bilder_gjenstander/<?php echo $verdi["bildenavn"]; ?>" alt="<?php echo $verdi["bildenavn"]; ?>">
+                <img src="../resources/image_items/<?php echo $verdi["bildenavn"]; ?>" alt="<?php echo $verdi["bildenavn"]; ?>">
                 <div id="wrapper_button_small">
                     <a class="box_item button_small" href="<?php echo $verdi["merke_link"]; ?>"
                         target="_blank"><?php echo $verdi["merke_navn"]; ?></a>
@@ -219,7 +219,7 @@ if (isset($_POST["submit"])) {
                 </div>
                 <?php if(isset($min_gjenstand)){
                     echo "<a class='box_item button_buy' 
-                    href='slett_gjenstand.php?itemID=". $verdi["itemID"]."'> 
+                    href='../includes/slett_gjenstand.php?itemID=". $verdi["itemID"]."'> 
                     slett</a>";
                 }
                 else {

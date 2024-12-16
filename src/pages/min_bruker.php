@@ -62,7 +62,7 @@
             <h2> Ditt navn: <?php echo $rad["fornavn"]; ?> <?php echo $rad["etternavn"]; ?></h2>
             <h2>Du lagde profilen din: <?php echo $rad["create_time"]; ?></h2>
             <h2>Ditt telefonnummer: <?php echo $rad["telefonnummer"]; ?></h2>
-            <a href="oppdater_info_bruker.php?oppdaterID=<?php echo $rad["brukerID"]; ?>">
+            <a href="/pages/main.php?page=oppdater_info_bruker">
                 <h2>oppdater info</h2>
             </a>
             <?php } ?>
@@ -77,7 +77,7 @@
             if($rad["solgt"]==0) {?>
                 <div class="display" style="width: 27%; min-width: 150px;">
                     <a href="item.php?itemID=<?php echo $rad["itemID"]; ?>">
-                        <img src="bilder_gjenstander/<?php echo $rad["bildenavn"]; ?>"
+                        <img src="../resources/image_items/<?php echo $rad["bildenavn"]; ?>"
                             alt="<?php echo $rad["bildenavn"]; ?>">
                         <h3><?php echo $rad["navn_item"]; ?></h3>
                         <h4><?php echo $rad["pris"]; ?> kr</h4>
@@ -94,7 +94,7 @@
             if($rad["solgt"]==0) {?>
                 <div class="display" style="width: 27%; min-width: 150px;">
                     <a href="item.php?itemID=<?php echo $rad["itemID"]; ?>">
-                        <img src="bilder_gjenstander/<?php echo $rad["bildenavn"]; ?>"
+                        <img src="../resources/image_items/<?php echo $rad["bildenavn"]; ?>"
                             alt="<?php echo $rad["bildenavn"]; ?>">
                         <h3><?php echo $rad["navn_item"]; ?></h3>
                         <h4><?php echo $rad["pris"]; ?> kr</h4>

@@ -29,7 +29,7 @@
             if($rad["solgt"]==0) { ?>
         <div class="display">
             <a href="item.php?itemID=<?php echo $rad["itemID"]; ?>">
-                <img src="bilder_gjenstander/<?php echo $rad["bildenavn"]; ?>" alt="<?php echo $rad["bildenavn"]; ?>">
+                <img src="../resources/image_items/<?php echo $rad["bildenavn"]; ?>" alt="<?php echo $rad["bildenavn"]; ?>">
                 <h3><?php echo $rad["navn_item"]; ?></h3>
                 <h4><?php echo $rad["pris"]; ?> kr</h4>
                 <p>selger: <?php echo $rad["brukernavn"]; ?></p>

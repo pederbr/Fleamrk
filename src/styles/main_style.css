@@ -268,3 +268,14 @@ width: 100%;
 .color-theme_depositphotos_272173476-stock-illustration-vector-illustration-of-old-newspaper-4-hex { color: #402E24; }
 .color-theme_depositphotos_272173476-stock-illustration-vector-illustration-of-old-newspaper-5-hex { color: #262626; }
 
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.icon-small {
+    width: 20px;
+    height: 20px;
+}
+

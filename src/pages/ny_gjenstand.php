@@ -1,51 +1,48 @@
 <?php
+    session_start();
     $tilkobling = new SQLite3(__DIR__ . '/../resources/db/fleamrk.db');
 
-$sql2 = "SELECT * FROM merke";
-$datasett2 = $tilkobling->query($sql2);
+    $sql2 = "SELECT * FROM merke";
+    $datasett2 = $tilkobling->query($sql2);
 
-$brukerID = $_SESSION["brukerID"];
+    $brukerID = $_SESSION["brukerID"];
 
-if (isset($_POST["submit"])) {
-    $navn = $_POST['txtNavn'];
-    $beskrivelse = $_POST['txtBeskrivelse'];
-    $størrelse = $_POST['txtStørrelse'];
-    $pris = $_POST['txtPris'];
-    $merke = $_POST['lstMerke'];
+    if (isset($_POST["submit"])) {
+        $navn = $_POST['txtNavn'];
+        $beskrivelse = $_POST['txtBeskrivelse'];
+        $størrelse = $_POST['txtStørrelse'];
+        $pris = $_POST['txtPris'];
+        $merke = $_POST['lstMerke'];
 
-    if (empty($navn) || empty($beskrivelse) || empty($størrelse) || empty($pris) || empty($merke)) {
-        echo 'Fyll inn alle feltene';
-    } else {
-        $sql = sprintf(
-            "INSERT INTO item (navn_item, beskrivelse, size, selgerID, solgt, pris, merkeID) 
-            VALUES('%s', '%s', '%s', '$brukerID', '0', '%s', '%s')",
-            $tilkobling->escapeString($_POST["txtNavn"]),
-            $tilkobling->escapeString($_POST["txtBeskrivelse"]),
-            $tilkobling->escapeString($_POST["txtStørrelse"]),
-            $tilkobling->escapeString($_POST["txtPris"]),
-            $tilkobling->escapeString($_POST["lstMerke"])
-        );
-        $tilkobling->exec($sql);
-        print $sql;
-
-        $sql2 = sprintf(
-            "SELECT itemID FROM item WHERE navn_item = '%s'",
-            $tilkobling->escapeString($_POST["txtNavn"])
-        );
-        $datasett2 = $tilkobling->query($sql2);
-
-        if ($datasett2->fetchArray(SQLITE3_ASSOC)) {
-            while ($row = $datasett2->fetchArray(SQLITE3_ASSOC)) {
-                $_SESSION["itemID"] = $row["itemID"];
-                echo "suksess!";
-                echo $_SESSION["itemID"];
-                header("Location:main.php?page=last_opp_bilde");
-            }
+        if (empty($navn) || empty($beskrivelse) || empty($størrelse) || empty($pris) || empty($merke)) {
+            echo 'Fyll inn alle feltene';
         } else {
-            echo "feil i opplasting";
+            $sql = sprintf(
+                "INSERT INTO item (navn_item, beskrivelse, size, selgerID, solgt, pris, merkeID) 
+                VALUES('%s', '%s', '%s', '$brukerID', '0', '%s', '%s')",
+                $tilkobling->escapeString($_POST["txtNavn"]),
+                $tilkobling->escapeString($_POST["txtBeskrivelse"]),
+                $tilkobling->escapeString($_POST["txtStørrelse"]),
+                $tilkobling->escapeString($_POST["txtPris"]),
+                $tilkobling->escapeString($_POST["lstMerke"])
+            );
+            $tilkobling->exec($sql);
+
+            $sql2 = sprintf(
+                "SELECT itemID FROM item WHERE navn_item = '%s'",
+                $tilkobling->escapeString($_POST["txtNavn"])
+            );
+            $datasett2 = $tilkobling->query($sql2);
+
+            if ($row = $datasett2->fetchArray(SQLITE3_ASSOC)) {
+                $_SESSION["itemID"] = $row["itemID"];
+                header("Location: main.php?page=last_opp_bilde");
+                exit(); 
+            } else {
+                echo "Feil i opplasting";
+            }
         }
     }
-}
 ?>
 
 <!DOCTYPE html>
@@ -56,11 +53,7 @@ if (isset($_POST["submit"])) {
     <title> Sidetittel</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" media="screen" href="/styles/main_style.css" />
-    <link rel="stylesheet" type="text/css" media="print" href="utskrift.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-
 </head>
 <!-- seksjon for hovedinnhold -->
 
@@ -83,15 +76,12 @@ if (isset($_POST["submit"])) {
             <select name="lstMerke">
                 <?php while ($rad = $datasett2->fetchArray(SQLITE3_ASSOC)) { ?>
                     <option value="<?php echo $rad["merkeID"]; ?>"> <?php echo $rad["merke_navn"]; ?>
-                    </option>}
+                    </option>
                 <?php } ?>
             </select>
             <p> ser du ikke ditt merke? <a href="main.php?page=nytt_merke" target="_blank">lag ditt eget!</a></p>
             <input type="submit" name="submit" value="Legg inn gjenstand">
         </form>
-
     </div>
-
 </body>
-
 </html>

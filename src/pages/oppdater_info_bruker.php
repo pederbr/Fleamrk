@@ -1,10 +1,8 @@
 <?php
     $tilkobling = new SQLite3(__DIR__ . '/../resources/db/fleamrk.db');
 
-    $stmt = $tilkobling->prepare(
-        "SELECT * FROM bruker WHERE brukerID=:brukerID"
-    );
-    $stmt->bindValue(':brukerID', $_GET["oppdaterID"], SQLITE3_TEXT);
+    $stmt = $tilkobling->prepare("SELECT * FROM bruker WHERE brukerID = :brukerID");
+    $stmt->bindValue(':brukerID', $_SESSION["brukerID"], SQLITE3_TEXT);
     $datasett = $stmt->execute();
     
     if (isset($_POST["submit"])){

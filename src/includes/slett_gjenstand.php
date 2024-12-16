@@ -16,5 +16,5 @@ $tilkobling->escapeString($_GET["itemID"]));
 $tilkobling->exec($sql3);
 print $sql3;
 
-header("Location:main.php");
+header("Location:../pages/main.php");
 ?>

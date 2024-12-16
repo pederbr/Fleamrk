@@ -45,6 +45,7 @@
 
         #fancy_text img {
             width: 30%;
+            height: 30%;
             margin: 10px;
             border-radius: 8px;
         }
